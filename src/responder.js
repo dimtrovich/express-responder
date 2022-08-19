@@ -175,7 +175,7 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.invalid_request || StatusCode.BAD_REQUEST, code, errors);
+		return this.respondFail(message || 'Bad request', this._codes.invalid_request || StatusCode.BAD_REQUEST, code, errors);
 	}
 
 	/**
@@ -187,28 +187,26 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.conflict || StatusCode.CONFLICT, code, errors);
+		return this.respondFail(message || 'Conflict', this._codes.conflict || StatusCode.CONFLICT, code, errors);
 	}
 
 	/**
 	 * Utilisé après la création réussie d'une nouvelle ressource.
 	 */
 	exports.respondCreated = (message, result = null) => {
-		return this.respondSuccess(message, result, this._codes.created || StatusCode.CREATED);
+		return this.respondSuccess(message || 'Created', result, this._codes.created || StatusCode.CREATED);
 	}
 
 	/**
 	 * Utilisé après qu'une ressource a été supprimée avec succès.
 	 */
 	exports.respondDeleted = (message, result = null) => {
-		return this.respondSuccess(message, result, this._codes.deleted || StatusCode.OK);
+		return this.respondSuccess(message || 'Deleted', result, this._codes.deleted || StatusCode.OK);
 	}
 
 	/**
 	 * Utilisé lorsque l'accès est toujours refusé à cette ressource
 	 * et qu'aucune nouvelle tentative n'aidera.
-	 *
-	 
 	 */
 	exports.respondForbidden = (message, code = null, errors = []) => {
 		if (is_array(code)) {
@@ -216,15 +214,13 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.forbidden || StatusCode.FORBIDDEN, code, errors);
+		return this.respondFail(message || 'Forbidden', this._codes.forbidden || StatusCode.FORBIDDEN, code, errors);
 	}
 
 	/**
 	 * À utiliser lorsqu'une ressource a été précédemment supprimée. Ceci est différent de Not Found,
 	 * car ici, nous savons que les données existaient auparavant, mais sont maintenant disparues,
 	 * où Not Found signifie que nous ne pouvons tout simplement pas trouver d'informations à leur sujet.
-	 *
-	 
 	 */
 	exports.respondGone = (message, code = null, errors = []) => {
 		if (is_array(code)) {
@@ -232,13 +228,11 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.resource_gone || StatusCode.GONE, code, errors);
+		return this.respondFail(message || 'Gone', this._codes.resource_gone || StatusCode.GONE, code, errors);
 	}
 
 	/**
 	 * Utilisé lorsqu'il y a une erreur de serveur.
-	 *
-	 
 	 */
 	exports.respondInternalError = (message, code = null, errors = []) => {
 		if (is_array(code)) {
@@ -246,13 +240,11 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.server_error || StatusCode.INTERNAL_ERROR, code, errors);
+		return this.respondFail(message || 'Internal Server Error', this._codes.server_error || StatusCode.INTERNAL_ERROR, code, errors);
 	}
 
 	/**
 	 * Reponse de type invalid token
-	 *
-	 
 	 */
 	exports.respondInvalidToken = (message, code = null, errors = []) => {
 		if (is_array(code)) {
@@ -260,7 +252,7 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.invalid_token || StatusCode.INVALID_TOKEN, code, errors);
+		return this.respondFail(message || 'Invalid Token', this._codes.invalid_token || StatusCode.INVALID_TOKEN, code, errors);
 	}
 
 	/**
@@ -272,7 +264,7 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.not_allowed || StatusCode.METHOD_NOT_ALLOWED, code, errors);
+		return this.respondFail(message || 'Method Not Allowed', this._codes.not_allowed || StatusCode.METHOD_NOT_ALLOWED, code, errors);
 	}
 
 	/**
@@ -280,7 +272,7 @@ module.exports = (res, options, codes) => {
 	 * mais qu'il n'y a pas de réponse significative à renvoyer au client.
 	 */
 	exports.respondNoContent = (message) => {
-		return this.respondSuccess(message, null, this._codes.no_content || StatusCode.NO_CONTENT);
+		return this.respondSuccess(message || 'No Content', null, this._codes.no_content || StatusCode.NO_CONTENT);
 	}
 
 	/**
@@ -292,7 +284,7 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.not_acceptable || StatusCode.NOT_ACCEPTABLE, code, errors);
+		return this.respondFail(message || 'Not Acceptable', this._codes.not_acceptable || StatusCode.NOT_ACCEPTABLE, code, errors);
 	}
 
 	/**
@@ -304,7 +296,7 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.resource_not_found || StatusCode.NOT_FOUND, code, errors);
+		return this.respondFail(message || 'Not Found', this._codes.resource_not_found || StatusCode.NOT_FOUND, code, errors);
 	}
 
 	/**
@@ -316,14 +308,14 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.not_implemented || StatusCode.NOT_IMPLEMENTED, code, errors);
+		return this.respondFail(message || 'Not Implemented', this._codes.resource_not_implemented || StatusCode.NOT_IMPLEMENTED, code, errors);
 	}
 
 	/**
 	 * Reponse de type ok
 	 */
 	exports.respondOk = (message, result = null) => {
-		return this.respondSuccess(message, result, this._codes.ok || StatusCode.OK);
+		return this.respondSuccess(message || 'Ok', result, this._codes.ok || StatusCode.OK);
 	}
 
 	/**
@@ -335,7 +327,7 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.too_many_requests || StatusCode.TOO_MANY_REQUESTS, code, errors);
+		return this.respondFail(message || 'Too Many Requests', this._codes.too_many_requests || StatusCode.TOO_MANY_REQUESTS, code, errors);
 	}
 
 	/**
@@ -349,14 +341,14 @@ module.exports = (res, options, codes) => {
 			code = null;
 		}
 
-		return this.respondFail(message, this._codes.unauthorized || StatusCode.UNAUTHORIZED, code, errors);
+		return this.respondFail(message || 'Unauthorized', this._codes.unauthorized || StatusCode.UNAUTHORIZED, code, errors);
 	}
 
 	/**
 	 * Utilisé après qu'une ressource a été mise à jour avec succès.
 	 */
 	exports.respondUpdated = (message, result = null) => {
-		return this.respondSuccess(message, result, this._codes.updated || StatusCode.OK);
+		return this.respondSuccess(message || 'Updated', result, this._codes.updated || StatusCode.OK);
 	}
 
 
