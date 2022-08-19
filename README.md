@@ -1,11 +1,10 @@
-# Express Responder
+# Express Rest Response
 ### Réponses Restful simple pour Express.js
 
 
 Une grande partie du développement moderne nécessite la création d'API, qu'il s'agisse simplement de fournir des données à un programme lourd en JavaScript, single page ou en tant que produit autonome. 
 
-Express Responder fournit un trait de réponse API qui peut être
-utilisé avec n'importe quel contrôleur pour simplifier les types de réponse courants, sans avoir besoin de se rappeler quel code d'état HTTP doit être renvoyé pour quels types de réponse.
+Express Rest Response fournit un trait de réponse API qui peut être utilisé avec n'importe quel contrôleur pour simplifier les types de réponse courants, sans avoir besoin de se rappeler quel code d'état HTTP doit être renvoyé pour quels types de réponse.
 
 
 #### Installation
@@ -13,13 +12,13 @@ utilisé avec n'importe quel contrôleur pour simplifier les types de réponse c
 via [npm](https://npmjs.org/)
 
 ```sh
-$ npm install express-responder --save
+$ npm install express-rest-response --save
 ```
 
 via [yarn](https://yarnpkg.com)
 
 ```sh
-$ yarn add express-responder
+$ yarn add express-rest-response
 ```
 
 #### Utilisation
@@ -31,9 +30,12 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
-// Utilisation du middleware express-responder
-const responder = require('express-responder')
+// Utilisation du middleware express-rest-response
+const responder = require('express-rest-response')
 app.use(responder())
+
+const routes = require('./router')
+app.use('/api', routes)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, function(req,res){
@@ -168,7 +170,7 @@ Cela ressemblerait à quelque chose comme :
 }
 ```
 
-Les 3 méthodes ci-déssus sont les méthodes principales. Il existe néanmoins des méthodes plus spécifique en fonction de vos besoins
+Les 3 méthodes ci-dessus sont les méthodes principales. Il existe néanmoins des méthodes plus spécifique en fonction de vos besoins
 
 #### `respondCreated(message?: string = "Created", result: mixed = null)`
 

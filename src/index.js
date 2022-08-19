@@ -1,6 +1,6 @@
 "use strict";
 /*!
- * Express Responder (https://github.com/dimtrovich/express-responder)
+ * Express Rest Response (https://github.com/dimtrovich/express-responder)
  * Copyright 2021 Dimtrov Lab's | Dimitri Sitchet Tomkeu
  * Licensed under MIT (https://opensource.org/licences/mit)
  */

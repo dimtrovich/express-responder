@@ -1,11 +1,11 @@
 {
-  "name": "express-responder",
+  "name": "express-rest-response",
   "version": "0.0.1",
   "description": "response restful simple pour expressjs",
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dimtrovich/express-responder.git"
+    "url": "git+https://github.com/dimtrovich/express-rest-response.git"
   },
   "keywords": [
     "express",
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dimtrovich/express-responder/issues"
+    "url": "https://github.com/dimtrovich/express-rest-response/issues"
   },
-  "homepage": "https://github.com/dimtrovich/express-responder#readme"
+  "homepage": "https://github.com/dimtrovich/express-rest-response#readme"
 }
