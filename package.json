@@ -1,0 +1,25 @@
+{
+  "name": "express-responder",
+  "version": "1.0.0",
+  "description": "response restful simple pour expressjs",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimtrovich/express-responder.git"
+  },
+  "keywords": [
+    "express",
+    "restfull",
+    "response",
+    "middleware"
+  ],
+  "author": {
+    "name": "Dimitri Sitchet Tomkeu",
+    "email": "devcode.dst@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dimtrovich/express-responder/issues"
+  },
+  "homepage": "https://github.com/dimtrovich/express-responder#readme"
+}
