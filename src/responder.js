@@ -73,9 +73,9 @@ module.exports = (res, options, codes) => {
 		 */
 		field: {
 			/**
-			 * Le nom du champ pour le 'statut' dans la réponse
+			 * Le nom du champ pour `l'etat` de la réponse
 			 */
-		 	status: 'status',
+		 	success: 'success',
 			/**
 			 * Le nom du champ pour le 'message' dans la réponse
 			 */
@@ -112,8 +112,8 @@ module.exports = (res, options, codes) => {
 		
 		response[this._options.field?.message || 'message'] = message;
 		
-		if (!empty(this._options.field?.status)) {
-			response[this._options.field?.status] = false;
+		if (!empty(this._options.field?.success)) {
+			response[this._options.field?.success] = false;
 		}
 		if (!empty(this._options.field?.code)) {
 			response[this._options.field?.code] =code;
@@ -140,8 +140,8 @@ module.exports = (res, options, codes) => {
 		
 		response[this._options.field?.message || 'message'] = message;
 		
-		if (!empty(this._options.field?.status)) {
-			response[this._options.field?.status] = true;
+		if (!empty(this._options.field?.success)) {
+			response[this._options.field?.success] = true;
 		}
 		
 		response[this._options.field?.result || 'result'] = result;
