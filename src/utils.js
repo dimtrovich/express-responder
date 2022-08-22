@@ -101,3 +101,17 @@ exports.is_object = function (mixed_var) {
 
 	return mixed_var !== null && (typeof mixed_var === 'object' || mixed_var instanceof Object)
 }
+
+/**
+ * Met la première lettre d'une chaine de caractères en majuscule
+ * 
+ * @param {String} str 
+ * @return {String}
+ * @credit phpjs
+ */
+exports.ucfirst = function (str) {
+	str += '';
+	  var f = str.charAt(0)
+		.toUpperCase();
+	  return f + str.substr(1);
+};

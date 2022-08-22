@@ -5,7 +5,7 @@
  * Licensed under MIT (https://opensource.org/licences/mit)
  */
 const StatusCode = require('./status');
-const { empty, is_array, is_object } = require('./utils');
+const { empty, is_array } = require('./utils');
 
 /**
  * Constructeur de reponse 
@@ -17,9 +17,6 @@ const { empty, is_array, is_object } = require('./utils');
  */
 module.exports = (res, options, codes) => {
 	this._res = res;
-
-	options = (empty(options) || !is_object(options)) ? {} : options;
-	codes = (empty(codes) || !is_object(codes)) ? {} : codes;
 
 	/**
      * Permet aux classes enfants de remplacer

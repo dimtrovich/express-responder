@@ -5,30 +5,43 @@
  * Licensed under MIT (https://opensource.org/licences/mit)
  */
 const Response = require("./responder");
+const { ucfirst, is_object, empty } = require("./utils");
 module.exports = (options, codes) => {
+	const methods = [
+		'badRequest', 
+		'confict', 'created',
+		'deleted', 
+		'forbidden',
+		'gone',
+		'internalError', 'invalidToken',
+		'methodNotAllowed', 
+		'noContent', 'notAcceptable', 'notFound', 'NotImplemented',
+		'ok',
+		'tooManyRequests', 
+		'unauthorized',
+		'updated',
+	];
+	
+	options = (empty(options) || !is_object(options)) ? {} : options;
+	codes = (empty(codes) || !is_object(codes)) ? {} : codes;
+
     return (req, res, next) => {
         const responder = Response(res, options, codes);
         res.respondSuccess = responder.respondSuccess;
         res.respondFail = responder.respondFail;
         res.respond = responder.respond;
-
-		res.respondBadRequest = responder.respondBadRequest;
-		res.respondConflict = responder.respondConflict;
-		res.respondCreated = responder.respondCreated;
-		res.respondDeleted = responder.respondDeleted;
-		res.respondForbidden = responder.respondForbidden;
-		res.respondGone = responder.respondGone;
-		res.respondInternalError = responder.respondInternalError;
-		res.respondInvalidToken = responder.respondInvalidToken;
-		res.respondMethodNotAllowed = responder.respondMethodNotAllowed;
-		res.respondNoContent = responder.respondNoContent;
-		res.respondNotAcceptable = responder.respondNotAcceptable;
-		res.respondNotFound = responder.respondNotFound;
-		res.respondNotImplemented = responder.respondNotImplemented;
-		res.respondOk = responder.respondOk;
-		res.respondTooManyRequests = responder.respondTooManyRequests;
-		res.respondUnauthorized = responder.respondUnauthorized;
-		res.respondUpdated = responder.respondUpdated;
+		
+		for (const method of methods) {
+			res[`respond${ucfirst(method)}`] = responder[`respond${ucfirst(method)}`]
+		}
+		
+		if (options.allowShortSyntax && options.allowShortSyntax === true) {
+			for (const method of methods) {
+				res[`${method}`] = responder[`respond${ucfirst(method)}`]
+			}
+			res.fail = responder.respondFail;
+			res.success = responder.respondSuccess;
+		}
 
         next();
     };
