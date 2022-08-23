@@ -1,6 +1,6 @@
 {
   "name": "express-rest-response",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "response restful simple pour expressjs",
   "main": "src/index.js",
   "repository": {

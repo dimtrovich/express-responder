@@ -22,10 +22,6 @@ exports.empty = function (mixed_var) {
 		}
 	}
 
-	if (exports.is_array(mixed_var) && !mixed_var.length) {
-		return true
-	}
-
 	if (typeof mixed_var === 'object') {
 		for (key in mixed_var) {
 			// TODO: should we check for own properties only?
@@ -34,6 +30,10 @@ exports.empty = function (mixed_var) {
 			//}
 		}
 		return true;
+	}
+
+	if (exports.is_array(mixed_var) && !mixed_var.length) {
+		return true
 	}
 
 	return false;
