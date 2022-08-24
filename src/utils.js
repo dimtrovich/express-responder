@@ -47,44 +47,25 @@ exports.empty = function (mixed_var) {
  * @credit phpjs
  */
 exports.is_array = function (mixed_var) {
-	var ini,
-		_getFuncName = function(fn) {
-			  var name = (/\W*function\s+([\w\$]+)\s*\(/).exec(fn);
-			if (!name) {
-				return '(Anonymous)';
-			}
-			return name[1];
-		},
-		_isArray = function(mixed_var) {
-			if (!mixed_var || typeof mixed_var !== 'object' || typeof mixed_var.length !== 'number') {
-				return false;
-			}
-			var len = mixed_var.length;
-			mixed_var[mixed_var.length] = 'bogus';
-			if (len !== mixed_var.length) {
-				mixed_var.length -= 1;
-				return true;
-			}
-			delete mixed_var[mixed_var.length];
+	var _isArray = function(mixed_var) {
+		if (!mixed_var || typeof mixed_var !== 'object' || typeof mixed_var.length !== 'number') {
 			return false;
-		};
+		}
+		var len = mixed_var.length;
+		mixed_var[mixed_var.length] = 'bogus';
+		if (len !== mixed_var.length) {
+			mixed_var.length -= 1;
+			return true;
+		}
+		delete mixed_var[mixed_var.length];
+		return false;
+	};
 
 	if (!mixed_var || typeof mixed_var !== 'object') {
 		return false;
 	}
 
-	this.php_js = this.php_js || {};
-	this.php_js.ini = this.php_js.ini || {};
-
-	ini = this.php_js.ini['phpjs.objectsAsArrays'];
-
-	return _isArray(mixed_var) ||
-		((!ini || (
-		(parseInt(ini.local_value, 10) !== 0 && (!ini.local_value.toLowerCase || ini.local_value.toLowerCase() !==
-			'off')))) && (
-		(Object.prototype.toString.call(mixed_var) === '[object Object]' && _getFuncName(mixed_var.constructor) ===
-		'Object')
-	));
+	return _isArray(mixed_var);
 }
 
 /**

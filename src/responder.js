@@ -5,7 +5,7 @@
  * Licensed under MIT (https://opensource.org/licences/mit)
  */
 const StatusCode = require('./status');
-const { empty, is_array } = require('./utils');
+const { empty, is_array, is_object } = require('./utils');
 
 /**
  * Constructeur de reponse 
@@ -167,38 +167,36 @@ module.exports = (res, options, codes) => {
 	 * Reponse de type bad request
 	 */
 	exports.respondBadRequest = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
-
-		return this.respondFail(message || 'Bad request', this._codes.invalid_request || StatusCode.BAD_REQUEST, code, errors);
+		const params = this.parseParams(message, code, errors);
+		
+		return this.respondFail(params.message || 'Bad request', this._codes.invalid_request || StatusCode.BAD_REQUEST, params.code, params.errors);
 	}
 
 	/**
 	 * À utiliser lorsque vous essayez de créer une nouvelle ressource et qu'elle existe déjà.
 	 */
 	exports.respondConflict = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Conflict', this._codes.conflict || StatusCode.CONFLICT, code, errors);
+		return this.respondFail(params.message || 'Conflict', this._codes.conflict || StatusCode.CONFLICT, params.code, params.errors);
 	}
 
 	/**
 	 * Utilisé après la création réussie d'une nouvelle ressource.
 	 */
 	exports.respondCreated = (message, result = null) => {
-		return this.respondSuccess(message || 'Created', result, this._codes.created || StatusCode.CREATED);
+		const params = this.parseParams(message, null, result);
+
+		return this.respondSuccess(params.message || 'Created', params.errors, this._codes.created || StatusCode.CREATED);
 	}
 
 	/**
 	 * Utilisé après qu'une ressource a été supprimée avec succès.
 	 */
 	exports.respondDeleted = (message, result = null) => {
-		return this.respondSuccess(message || 'Deleted', result, this._codes.deleted || StatusCode.OK);
+		const params = this.parseParams(message, null, result);
+
+		return this.respondSuccess(params.message || 'Deleted', params.errors, this._codes.deleted || StatusCode.OK);
 	}
 
 	/**
@@ -206,12 +204,9 @@ module.exports = (res, options, codes) => {
 	 * et qu'aucune nouvelle tentative n'aidera.
 	 */
 	exports.respondForbidden = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Forbidden', this._codes.forbidden || StatusCode.FORBIDDEN, code, errors);
+		return this.respondFail(params.message || 'Forbidden', this._codes.forbidden || StatusCode.FORBIDDEN, params.code, params.errors);
 	}
 
 	/**
@@ -220,48 +215,36 @@ module.exports = (res, options, codes) => {
 	 * où Not Found signifie que nous ne pouvons tout simplement pas trouver d'informations à leur sujet.
 	 */
 	exports.respondGone = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Gone', this._codes.resource_gone || StatusCode.GONE, code, errors);
+		return this.respondFail(params.message || 'Gone', this._codes.resource_gone || StatusCode.GONE, params.code, params.errors);
 	}
 
 	/**
 	 * Utilisé lorsqu'il y a une erreur de serveur.
 	 */
 	exports.respondInternalError = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Internal Server Error', this._codes.server_error || StatusCode.INTERNAL_ERROR, code, errors);
+		return this.respondFail(params.message || 'Internal Server Error', this._codes.server_error || StatusCode.INTERNAL_ERROR, params.code, params.errors);
 	}
 
 	/**
 	 * Reponse de type invalid token
 	 */
 	exports.respondInvalidToken = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Invalid Token', this._codes.invalid_token || StatusCode.INVALID_TOKEN, code, errors);
+		return this.respondFail(params.message || 'Invalid Token', this._codes.invalid_token || StatusCode.INVALID_TOKEN, params.code, params.errors);
 	}
 
 	/**
 	 * Reponse de type method not allowed
 	 */
 	exports.respondMethodNotAllowed = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Method Not Allowed', this._codes.not_allowed || StatusCode.METHOD_NOT_ALLOWED, code, errors);
+		return this.respondFail(params.message || 'Method Not Allowed', this._codes.not_allowed || StatusCode.METHOD_NOT_ALLOWED, params.code, params.errors);
 	}
 
 	/**
@@ -276,55 +259,45 @@ module.exports = (res, options, codes) => {
 	 * Reponse de type not acceptable
 	 */
 	exports.respondNotAcceptable = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Not Acceptable', this._codes.not_acceptable || StatusCode.NOT_ACCEPTABLE, code, errors);
+		return this.respondFail(params.message || 'Not Acceptable', this._codes.not_acceptable || StatusCode.NOT_ACCEPTABLE, params.code, params.errors);
 	}
 
 	/**
 	 * Utilisé lorsqu'une ressource spécifiée est introuvable.
 	 */
 	exports.respondNotFound = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Not Found', this._codes.resource_not_found || StatusCode.NOT_FOUND, code, errors);
+		return this.respondFail(params.message || 'Not Found', this._codes.resource_not_found || StatusCode.NOT_FOUND, params.code, params.errors);
 	}
 
 	/**
 	 * Reponse de type not implemented
 	 */
 	exports.respondNotImplemented = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Not Implemented', this._codes.resource_not_implemented || StatusCode.NOT_IMPLEMENTED, code, errors);
+		return this.respondFail(params.message || 'Not Implemented', this._codes.resource_not_implemented || StatusCode.NOT_IMPLEMENTED, params.code, params.errors);
 	}
 
 	/**
 	 * Reponse de type ok
 	 */
 	exports.respondOk = (message, result = null) => {
-		return this.respondSuccess(message || 'Ok', result, this._codes.ok || StatusCode.OK);
+		const params = this.parseParams(message, null, result);
+
+		return this.respondSuccess(params.message || 'Ok', params.errors, this._codes.ok || StatusCode.OK);
 	}
 
 	/**
 	 * Utilisé lorsque l'utilisateur a fait trop de demandes pour la ressource récemment.
 	 */
 	exports.respondTooManyRequests = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Too Many Requests', this._codes.too_many_requests || StatusCode.TOO_MANY_REQUESTS, code, errors);
+		return this.respondFail(params.message || 'Too Many Requests', this._codes.too_many_requests || StatusCode.TOO_MANY_REQUESTS, params.code, params.errors);
 	}
 
 	/**
@@ -333,21 +306,39 @@ module.exports = (res, options, codes) => {
 	 * L'utilisateur est encouragé à réessayer avec les informations appropriées.
 	 */
 	exports.respondUnauthorized = (message, code = null, errors = []) => {
-		if (is_array(code)) {
-			errors = code;
-			code = null;
-		}
+		const params = this.parseParams(message, code, errors);
 
-		return this.respondFail(message || 'Unauthorized', this._codes.unauthorized || StatusCode.UNAUTHORIZED, code, errors);
+		return this.respondFail(params.message || 'Unauthorized', this._codes.unauthorized || StatusCode.UNAUTHORIZED, params.code, params.errors);
 	}
 
 	/**
 	 * Utilisé après qu'une ressource a été mise à jour avec succès.
 	 */
 	exports.respondUpdated = (message, result = null) => {
-		return this.respondSuccess(message || 'Updated', result, this._codes.updated || StatusCode.OK);
+		const params = this.parseParams(message, null, result);
+
+		return this.respondSuccess(params.message || 'Updated', params.errors, this._codes.updated || StatusCode.OK);
 	}
 
+	/**
+	 * @internal
+	 */
+	this.parseParams = (message, code = null, errors = []) => {
+		if (is_array(message) || is_object(message)) {
+			if (empty(errors)) {
+				errors = message;
+			}
+			message = null;
+		}
+		if (is_array(code)) {
+			if (empty(errors)) {
+				errors = code;
+			}
+			code = null;
+		}
+
+		return {message, code, errors}
+	}
 
 	return this
 }
