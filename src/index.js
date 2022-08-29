@@ -9,13 +9,13 @@ const { ucfirst, is_object, empty } = require("./utils");
 module.exports = (options, codes) => {
 	const methods = [
 		'badRequest', 
-		'confict', 'created',
+		'conflict', 'created',
 		'deleted', 
 		'forbidden',
 		'gone',
 		'internalError', 'invalidToken',
 		'methodNotAllowed', 
-		'noContent', 'notAcceptable', 'notFound', 'NotImplemented',
+		'noContent', 'notAcceptable', 'notFound', 'notImplemented',
 		'ok',
 		'tooManyRequests', 
 		'unauthorized',

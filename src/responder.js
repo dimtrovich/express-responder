@@ -101,7 +101,7 @@ module.exports = (res, options, codes) => {
 	 * @param {number|string|null} 	code    Code d'erreur personnalisé, spécifique à l'API
 	 * @param {Array}           	errors  La liste des erreurs rencontrées
 	 */
-	exports.respondFail = (message = "Une erreur s'est produite", status = StatusCode.INTERNAL_ERROR, code, errors = []) => {
+	exports.respondFail = (message = "An error has occurred", status = StatusCode.INTERNAL_ERROR, code, errors = []) => {
 		message = message || "Une erreur s'est produite";
 		code = !empty(code) ? code : status;
 		
@@ -129,7 +129,7 @@ module.exports = (res, options, codes) => {
 	/**
 	 * Utilisé pour les succès génériques pour lesquels aucune méthode personnalisée n'existe.
 	 */
-	exports.respondSuccess = (message = "Résultat", result = null, status = StatusCode.OK) => {
+	exports.respondSuccess = (message = "Result", result = null, status = StatusCode.OK) => {
 		message = message || 'Résultat';
 		status = !empty(status) ? status : StatusCode.OK;
 
@@ -232,8 +232,8 @@ module.exports = (res, options, codes) => {
 	/**
 	 * Reponse de type invalid token
 	 */
-	exports.respondInvalidToken = (message, code = null, errors = []) => {
-		const params = this.parseParams(message, code, errors);
+	exports.respondInvalidToken = (message, code = null) => {
+		const params = this.parseParams(message, code, []);
 
 		return this.respondFail(params.message || 'Invalid Token', this._codes.invalid_token || StatusCode.INVALID_TOKEN, params.code, params.errors);
 	}
@@ -276,8 +276,8 @@ module.exports = (res, options, codes) => {
 	/**
 	 * Reponse de type not implemented
 	 */
-	exports.respondNotImplemented = (message, code = null, errors = []) => {
-		const params = this.parseParams(message, code, errors);
+	exports.respondNotImplemented = (message, code = null) => {
+		const params = this.parseParams(message, code, []);
 
 		return this.respondFail(params.message || 'Not Implemented', this._codes.resource_not_implemented || StatusCode.NOT_IMPLEMENTED, params.code, params.errors);
 	}
