@@ -12,7 +12,7 @@
  * @return {Boolean} true si l'element est vide
  * @credit phpjs
  */
-exports.empty = function (mixed_var) {
+export function empty(mixed_var) {
 	var undef, key, i, len;
 	var emptyValues = [undef, null, false, 0, '', '0'];
 
@@ -32,7 +32,7 @@ exports.empty = function (mixed_var) {
 		return true;
 	}
 
-	if (exports.is_array(mixed_var) && !mixed_var.length) {
+	if (is_array(mixed_var) && !mixed_var.length) {
 		return true
 	}
 
@@ -46,7 +46,7 @@ exports.empty = function (mixed_var) {
  * @return {Boolean} true si l'element est un tableau
  * @credit phpjs
  */
-exports.is_array = function (mixed_var) {
+export function is_array(mixed_var) {
 	var _isArray = function(mixed_var) {
 		if (!mixed_var || typeof mixed_var !== 'object' || typeof mixed_var.length !== 'number') {
 			return false;
@@ -75,7 +75,7 @@ exports.is_array = function (mixed_var) {
  * @return {Boolean} true si l'element est un tableau
  * @credit phpjs
  */
-exports.is_object = function (mixed_var) {
+export function is_object(mixed_var) {
 	if (Object.prototype.toString.call(mixed_var) === '[object Array]') {
 		return false;
 	}
@@ -90,7 +90,7 @@ exports.is_object = function (mixed_var) {
  * @return {String}
  * @credit phpjs
  */
-exports.ucfirst = function (str) {
+export function ucfirst(str) {
 	str += '';
 	  var f = str.charAt(0)
 		.toUpperCase();

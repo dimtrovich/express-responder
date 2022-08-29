@@ -4,9 +4,10 @@
  * Copyright 2021 Dimtrov Lab's | Dimitri Sitchet Tomkeu
  * Licensed under MIT (https://opensource.org/licences/mit)
  */
-const Response = require("./responder");
-const { ucfirst, is_object, empty } = require("./utils");
-module.exports = (options, codes) => {
+import Response from "./responder";
+import { ucfirst, is_object, empty } from "./utils";
+
+export default function (options, codes) {
 	const methods = [
 		'badRequest', 
 		'conflict', 'created',

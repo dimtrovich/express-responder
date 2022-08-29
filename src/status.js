@@ -7,7 +7,7 @@
 /**
  * Liste des code HTTP
  */
-module.exports = {
+export default {
     /**
      * Codes non officiels
      */
