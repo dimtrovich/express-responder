@@ -1,6 +1,16 @@
-# Express Rest Response
-### Réponses Restful simple pour Express.js
 
+<h1 align="center">Express Rest Response</h1>
+<h4 align="center"> Réponses Restful simple pour Express.js</h4>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/express-rest-response"><img src="https://img.shields.io/npm/v/express-rest-response.svg"></a>
+  <a href="https://www.npmjs.com/package/express-rest-response"><img src="https://img.shields.io/npm/dt/express-rest-response.svg"></a>
+<a href='https://coveralls.io/github/dimtrovich/express-rest-response?branch=main'><img src='https://coveralls.io/repos/github/dimtrovich/express-rest-response/badge.svg?branch=main' alt='Coverage Status' /></a>
+  <a href="https://github.com/dimtrovich/express-rest-response/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+  <a href="http://img.badgesize.io/dimtrovich/express-rest-response/main/dist/bundle.min.js.svg?compression=gzip&style=flat-square">
+    <img src="http://img.badgesize.io/dimtrovich/express-rest-response/main/dist/bundle.min.js.svg?compression=gzip&style=flat-square">
+  </a>
+</p>
 
 Une grande partie du développement moderne nécessite la création d'API, qu'il s'agisse simplement de fournir des données à un programme lourd en JavaScript, single page ou en tant que produit autonome. 
 
@@ -70,45 +80,74 @@ Dans cet exemple, un code d'état HTTP de 201 est renvoyé, avec le message d'é
 
 ```javascript
 // Réponse générique
-res.respond(data, 200);
+res.respond(data, status = 200);
 
 // Réponse générique d'echec
-res.respondFail(errors, 400);
+res.respondFail(message = "An error has occurred", status = 500, code = null, errors = []);
 
 // Réponse générique de succès
-res.respondSuccess(message, data, 201);
+res.respondSuccess(message = "Result", result = null, status = 200);
 
-// Réponse de création de resource
-res.respondCreated(data);
 
-// Réponse de suppression de resource
-res.respondDeleted(data);
+// Création de resource
+res.respondCreated(message = "Created", result = null);
+
+// Suppression de resource
+res.respondDeleted(message = "Deleted", result = null);
 
 // Commande exécutée sans réponse requise
-res.respondNoContent(message);
+res.respondNoContent(message = "No Content");
 
-// Le client n'est pas autorisé
-res.respondUnauthorized(description);
+// Tout est ok
+res.respondOk(message = "Ok", result = null);
+
+// Mise à jour de resource
+res.respondUpdated(message = "Updated", result = null);
+
+
+// Les données envoyées sont invalides
+res.respondBadRequest(message = "Bad Request", code = 400, errors = []);
+
+// Ressource déja existante
+res.respondConflict(message = "Conflict", code = 409, errors = []);
 
 // Action interdite
-res.respondForbidden(description);
+res.respondForbidden(message = "Forbidden", code = 403, errors = []);
+
+// Ressource précédement supprimée
+res.respondGone(message = "Gone", code = 410, errors = []);
+
+// Erreur interne
+res.respondInternalError(message = "Internal Server Error", code = 500, errors = []);
+
+// Token d'authentification expriré ou invalide
+res.respondInvalidToken(message = "Invalid Token", code = 498);
+
+// Méthode d'accès non autorisée
+res.respondMethodNotAllowed(message = "Method Not Allowed", code = 405, errors = []);
+
+// 	Ressource non disponible dans un format qui respecterait les en-têtes « Accept » de la requête
+res.respondNotAcceptable(message = "Not Acceptable", code = 406, errors = []);
 
 // Ressource introuvable
-res.respondNotFound(description);
+res.respondNotFound(message = "Not Found", code = 404, errors = []);
 
-// Resource déja existante
-res.respondConflict(description);
+// Ressource non disponible dans un format qui respecterait les en-têtes « Accept » de la requête
+res.respondNotAcceptable(message = "Not Acceptable", code = 406, errors = []);
 
-// Ressource précédemment supprimée
-res.respondResourceGone(description);
+// Fonctionnalité réclamée non supportée par le serveur.
+res.respondNotImplemented(message = "Not Implemented", code = 501);
 
 // Le client a fait trop de demandes
-res.respondTooManyRequests(description);
+res.respondTooManyRequests(message = "Too Many Requests", code = 429, errors = []);
+
+// Le client n'est pas autorisé
+res.respondUnauthorized(message = "Unauthorized", code = 401, errors = []);
 ```
 
 #### Référence de classe
 **************
-#### `respond(data: mixed status?: number = 200)`
+#### `respond(data: mixed, status?: number = 200)`
 
 C'est la méthode utilisée par toutes les autres méthodes de ce trait pour renvoyer une réponse au client.
 
@@ -117,7 +156,7 @@ C'est la méthode utilisée par toutes les autres méthodes de ce trait pour ren
   * `data` — Les données à renvoyer au client. Chaîne ou tableau ou objet littéral
   * `status` — Code d'état HTTP à renvoyer. Par défaut à 200
 
-#### `respondFail(message?: string = "Une erreur s'est produite", status?: number = 500, code?: int|string|null = null, errors?: array = [])`
+#### `respondFail(message?: string = "An error has occurred", status?: number = 500, code?: int|string|null = null, errors?: array = [])`
 
 C'est la méthode générique utilisée pour représenter une réponse ayant échoué et est utilisée par toutes les autres méthodes d'échec.
 
@@ -143,7 +182,7 @@ Cela ressemblerait à quelque chose comme :
     "code": 909
 }
 ```
-#### `respondSuccess(message?: string = "Résultat", result: mixed = null, status?: number = 200)`
+#### `respondSuccess(message?: string = "Result", result: mixed = null, status?: number = 200)`
 
 C'est la méthode générique utilisée pour représenter une réponse ayant réussie et est utilisée par toutes les autres méthodes de réussite.
 
@@ -200,7 +239,7 @@ User.create({
 Renverra une réponse comme :
 ```json
 "message": "User created successfully",
-"status": true,
+"success": true,
 "result": {
     "password": "$2b$10$it8MOxq3UMlyqA4SODsD2uFafTreOQJPIdyGYQfGl2CJiKX4N81mq",
     "phone": "xxxxxxxxx",
@@ -215,20 +254,60 @@ Renverra une réponse comme :
 
 Définit le code d'état approprié à utiliser lorsqu'une nouvelle ressource a été supprimée à la suite de et appel d'API, généralement 200.
 
-#### `respondNoContent(message?: string = "No content")`
+#### `respondNoContent(message?: string = "No Content")`
 
 Définit le code d'état approprié à utiliser lorsqu'une commande a été exécutée avec succès par le serveur mais qu'il n'y a pas réponse significative à renvoyer au client, généralement 204.
 
+#### `respondBadRequest(message?: string = "Bad Request", code?: number|string|null = null, errors?: array)`
+
+Définit le code d'état approprié à utiliser lorsque les données envoyées par le client ne satisfont pas aux règles de validation. Le code d'état est généralement 400.
+```javascript
+return res.respondBadRequest('Invalid phone number');
+```
+#### `respondConflict(message?: string = "Conflict", code?: number|string|null = null, errors?: array)`
+Définit le code d'état approprié à utiliser lorsque la ressource que le client essaie de créer existe déjà. Le code d'état est généralement 409.
+```javascript
+return res.respondConflict('A user already exists with that email.');
+```
+#### `respondForbidden(message?: string = "Forbidden", code?: number|string|null = null, errors?: array)`
+
+Contrairement à `respondUnauthorized()`, cette méthode doit être utilisée lorsque le point de terminaison d'API demandé n'est jamais autorisé. `Non autorisé` implique que le client est encouragé à réessayer avec des informations d'identification différentes. Avec `interdits`, le client ne doit pas réessayer car cela n'aidera pas. Le code d'état est 403.
+```javascript
+return res.respondForbidden('Invalid API endpoint.');
+```
+#### `respondGone(message?: string = "Gone", code?: number|string|null = null, errors?: array)`
+Définit le code d'état approprié à utiliser lorsque la ressource demandée a été précédemment supprimée et n'est plus disponible. Le code d'état est généralement 410.
+```javascript
+return res.respondGone('That user has been previously deleted.');
+```
+#### `respondInternalError(message?: string = "Internal Server Error", code?: number|string|null = null, errors?: array)`
+Définit le code d'état approprié à utiliser en cas d'erreur de serveur. Le code d'état est généralement 500.
+```javascript
+try {
+    ...
+}
+catch(err) {
+    return res.respondInternalError(err.message);
+}
+```
+#### `respondInvalidToken(message?: string = "Invalid Token", code?: number|string|null = null)`
+Définit le code d'état approprié à utiliser lorsque le token utilisé pour l'authentification de l'utilisateur a expiré ou est invalide. Le code d'état est généralement 498.
+```javascript
+return res.respondInvalidToken();
+```
+#### `respondNotFound(message?: string = "Not Found", code?: number|string|null = null, errors?: array)`
+Définit le code d'état approprié à utiliser lorsque la ressource demandée est introuvable. Le code d'état est 404.
+```javascript
+return res.respondNotFound('User 13 cannot be found.');
+```
+#### `respondTooManyRequests(message?: string = "Too many requests", code?: number|string|null = null, errors?: array)`
+Définit le code d'état approprié à utiliser lorsque le client a appelé trop de fois un point de terminaison d'API. Cela peut être dû à une certaine forme de limitation ou de limitation de débit. Le code d'état est généralement 400.
+```javascript
+return res.respondTooManyRequests('You must wait 15 seconds before making another request.');
+```
 #### `respondUnauthorized(message?: string = "Unauthorized", code?: number|string|null = null, errors?: array)`
 
 Définit le code d'état approprié à utiliser lorsque l'utilisateur n'a pas été autorisé, ou a une autorisation incorrecte. Le code d'état est 401.
 ```javascript
 return res.respondUnauthorized('Invalid Auth token');
-```
-#### `respondForbidden(message?: string = "Forbidden", code?: number|string|null = null, errors?: array)`
-
-Contrairement à `respondUnauthorized()`, cette méthode doit être utilisée lorsque le point de terminaison d'API demandé n'est jamais autorisé.
-`Non autorisé` implique que le client est encouragé à réessayer avec des informations d'identification différentes. Avec `interdits`, le client ne doit pas réessayer car cela n'aidera pas. Le code d'état est 403.
-```javascript
-return res.respondForbidden('Invalid API endpoint.');
 ```

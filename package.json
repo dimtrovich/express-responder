@@ -1,8 +1,11 @@
 {
   "name": "express-rest-response",
-  "version": "0.0.3",
-  "description": "response restful simple pour expressjs",
-  "main": "src/index.js",
+  "version": "0.0.4",
+  "description": "Response restful simple pour express.js",
+  "main": "dist/bundle.min.js",
+  "files": [
+    "dist/**"
+  ],
   "type": "module",
   "repository": {
     "type": "git",
